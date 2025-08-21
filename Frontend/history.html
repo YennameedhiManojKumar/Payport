@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction History</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <script src="/js/history.js"></script>
+
+    <nav>
+    <a href="register.html">Register</a> |
+    <a href="link.html">Link Account</a> |
+    <a href="transfer.html">Transfer</a> |
+    <a href="balance.html">Check Balance</a> |
+    <a href="history.html">Transaction History</a>
+    </nav>
+  <hr />
+   
+    <div class="container">
+       <h2>Transaction History</h2>
+    <form id="historyForm">
+        <label for="upiId">UPI ID:</label>
+        <input type="text" id="upiId" required>
+        <button type="submit">View History</button>
+    </form>
+    </div>
+
+    <table border="1" id="transactionTable" style="margin-top: 20px; display: none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sender UPI</th>
+                <th>Receiver UPI</th>
+                <th>Amount</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="transactionBody">
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('historyForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const upiId = document.getElementById('upiId').value;
+
+            fetch(`http://localhost:8080/api/transaction/history?upiId=${upiId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('transactionTable');
+                    const body = document.getElementById('transactionBody');
+                    body.innerHTML = '';
+
+                    if (data.length > 0) {
+                        data.forEach(tx => {
+                            const row = `<tr>
+                                <td>${tx.id}</td>
+                                <td>${tx.senderUpi}</td>
+                                <td>${tx.receiverUpi}</td>
+                                <td>₹${tx.amount}</td>
+                                <td>${tx.timestamp}</td>
+                            </tr>`;
+                            body.innerHTML += row;
+                        });
+                        table.style.display = 'table';
+                    } else {
+                        body.innerHTML = `<tr><td colspan="5">No transactions found.</td></tr>`;
+                        table.style.display = 'table';
+                    }
+                })
+                .catch(error => {
+                    alert('⚠️ Failed to fetch transaction history.');
+                });
+        });
+    </script>
+    <div id="historyResult"></div>
+
+</body>
+</html>
