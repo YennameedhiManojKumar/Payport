@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Link Account</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    
+    <nav>
+    <a href="register.html">Register</a> |
+    <a href="transfer.html">Transfer</a> |
+    <a href="balance.html">Check Balance</a> 
+    <a href="history.html">Transaction History</a>
+  </nav>
+  <hr />
+    <h2>Link Bank Account</h2>
+    <form id="linkForm">
+        <label for="userId">User ID:</label>
+        <input type="number" id="userId" name="userId" required><br><br>
+
+        <label for="upiId">UPI ID:</label>
+        <input type="text" id="upiId" name="upiId" required><br><br>
+
+        <label for="balance">Balance:</label>
+        <input type="number" id="balance" name="balance" required><br><br>
+
+        <button type="submit">Link Account</button>
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+        document.getElementById("linkForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const userId = document.getElementById("userId").value;
+            const upiId = document.getElementById("upiId").value;
+            const balance = document.getElementById("balance").value;
+
+            fetch(`/api/user/link-account?userId=${userId}&upiId=${upiId}&balance=${balance}`, {
+                method: "POST"
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById("message").textContent = "✅ Account linked successfully!";
+                } else {
+                    document.getElementById("message").textContent = "❌ Failed to link account.";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

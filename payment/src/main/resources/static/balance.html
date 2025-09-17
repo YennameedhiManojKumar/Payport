@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Check Balance</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/png" href="favicon.png" />
+</head>
+<body>
+
+  <nav>
+    <a href="register.html">Register</a> |
+    <a href="transfer.html">Transfer</a> |
+    <a href="balance.html">Check Balance</a> |
+    <a href="history.html">Transaction History</a>
+  </nav>
+
+  <div class="container">
+    <h1>Check Balance</h1>
+    <form id="balanceForm">
+      <label for="upiId">UPI ID:</label>
+      <input type="text" id="upiId" required>
+      <button type="submit">Check</button>
+    </form>
+    <p id="balanceResult"></p>
+  </div>
+
+  <script>
+    document.getElementById("balanceForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const upiId = document.getElementById("upiId").value;
+      const result = document.getElementById("balanceResult");
+
+      fetch(`/api/transaction/balance?upiId=${upiId}`)
+        .then(response => {
+          if (!response.ok) {
+            return response.text().then(err => { throw new Error(err); });
+          }
+          return response.text();
+        })
+        .then(balance => {
+          result.textContent = `✅ Balance: ₹${balance}`;
+          result.className = "success";
+        })
+        .catch(error => {
+          result.textContent = `❌ ${error.message}`;
+          result.className = "error";
+        });
+    });
+  </script>
+
+  <canvas id="bgCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.zIndex = '-1';
+
+    let width, height;
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const particles = Array.from({ length: 80 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 2 + 1,
+      dx: (Math.random() - 0.5) * 0.5,
+      dy: (Math.random() - 0.5) * 0.5
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(0, 255, 255, 0.2)';
+      particles.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > width) p.dx *= -1;
+        if (p.y < 0 || p.y > height) p.dy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+
+</body>
+</html>
