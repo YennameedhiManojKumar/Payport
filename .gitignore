@@ -1,0 +1,6 @@
+target/
+.vscode/
+.idea/
+*.class
+application-dev.properties
+application-prod.properties
