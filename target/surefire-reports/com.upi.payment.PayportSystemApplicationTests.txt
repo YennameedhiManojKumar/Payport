@@ -1,0 +1,160 @@
+-------------------------------------------------------------------------------
+Test set: com.upi.payment.PayportSystemApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 13, Skipped: 0, Time elapsed: 0.205 s <<< FAILURE! -- in com.upi.payment.PayportSystemApplicationTests
+com.upi.payment.PayportSystemApplicationTests.registerUser_shouldFail_whenDuplicateMobile -- Time elapsed: 0.025 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.setPin_shouldSucceed_whenPinNotSet -- Time elapsed: 0.005 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.transfer_shouldFail_whenZeroAmount -- Time elapsed: 0.006 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.transfer_shouldFail_whenSameUpi -- Time elapsed: 0.003 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.transfer_shouldFail_whenWrongPin -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.getBalance_shouldReturnBalance_whenCorrectPin -- Time elapsed: 0.004 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.registerUser_shouldSucceed_whenNewMobile -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.setPin_shouldFail_whenPinAlreadySet -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.transfer_shouldFail_whenSenderNotFound -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.transfer_shouldFail_whenInsufficientBalance -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.getBalance_shouldFail_whenWrongPin -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.getBalance_shouldFail_whenUpiNotFound -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+com.upi.payment.PayportSystemApplicationTests.transfer_shouldSucceed_whenValidRequest -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The declared package "com.payport.payment" does not match the expected package "com.upi.payment"
+
+	at com.upi.payment.PayportSystemApplicationTests.<init>(PayportSystemApplicationTests.java:1)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
