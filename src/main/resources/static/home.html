@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Payport</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #1a1a2e; /* Dark background color */
+      color: #ffffff; /* White text color */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    .container-custom {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 600px;
+    }
+    .btn {
+      margin: 10px;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+    h1 {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-custom">
+    <h1 class="mt-5">Welcome to Payport 💸</h1>
+    <p class="lead">Your one-stop solution for all payment needs.</p>
+    <a href="/register" class="btn btn-primary">Go to Registration Page</a>
+    <a href="/balance" class="btn btn-secondary ml-2">Go to Balance Page</a>
+    <a href="/transfer" class="btn btn-success ml-2">Go to Transfer Page</a>
+    <a href="/history" class="btn btn-info ml-2">Go to Transactions Page</a>
+  </div>
+</body>
+</html>

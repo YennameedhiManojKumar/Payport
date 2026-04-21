@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register & Link UPI</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav>
+        <a href="register.html">Register</a> |
+        <a href="transfer.html">Transfer</a> |
+        <a href="balance.html">Check Balance</a> |
+        <a href="history.html">Transaction History</a>
+    </nav>
+    <hr />
+
+    <div class="container">
+        <h2>Register & Link UPI</h2>
+        <form id="registerForm">
+            <label>Name:</label>
+            <input type="text" id="name" required><br>
+
+            <label>Mobile Number:</label>
+            <input type="text" id="mobile" required><br>
+
+            <label>UPI ID:</label>
+            <input type="text" id="upiId" required><br>
+
+            <label>Initial Balance:</label>
+            <input type="number" id="balance" required><br>
+
+            <button type="submit">Register & Link</button>
+        </form>
+
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const mobile = document.getElementById("mobile").value;
+            const upiId = document.getElementById("upiId").value;
+            const balance = document.getElementById("balance").value;
+
+            fetch("/api/user/registerAndLink", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: name,
+                    mobileNumber: mobile,
+                    upiId: upiId,
+                    balance: parseFloat(balance)
+                })
+            })
+            .then(response => {
+                if (response.ok) return response.json();
+                throw new Error("Registration failed");
+            })
+            .then(data => {
+                document.getElementById("message").textContent = "✅ Registered: User ID = " + data.id;
+                document.getElementById("message").className = "success";
+
+                // Redirect to another page (like transfer or balance) after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = "balance.html"; // or transfer.html
+                }, 1500);
+            })
+            .catch(error => {
+                document.getElementById("message").textContent = "❌ " + error.message;
+                document.getElementById("message").className = "error";
+            });
+        });
+    </script>
+</body>
+</html>

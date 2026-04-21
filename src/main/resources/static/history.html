@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction History</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <script src="/js/history.js"></script>
+
+    <nav>
+    <a href="register.html">Register</a> |
+    <a href="transfer.html">Transfer</a> |
+    <a href="balance.html">Check Balance</a> |
+    <a href="history.html">Transaction History</a>
+    </nav>
+    <hr />
+    
+    <div class="container">
+     <h2>Transaction History</h2>
+    <form id="historyForm">
+        <label for="upiId">UPI ID:</label>
+        <input type="text" id="upiId" required>
+        <button type="submit">View History</button>
+    </form>
+    </div>
+
+    <table  border="1" id="transactionTable" style="margin-top: 20px; display: none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sender UPI</th>
+                <th>Receiver UPI</th>
+                <th>Amount</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="transactionBody">
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('historyForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const upiId = document.getElementById('upiId').value;
+
+            fetch(`http://localhost:8080/api/transaction/history?upiId=${upiId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const table = document.getElementById('transactionTable');
+                    const body = document.getElementById('transactionBody');
+                    body.innerHTML = '';
+
+                    if (data.length > 0) {
+                        data.forEach(tx => {
+                            const row = `<tr>
+                                <td>${tx.id}</td>
+                                <td>${tx.senderUpi}</td>
+                                <td>${tx.receiverUpi}</td>
+                                <td>₹${tx.amount}</td>
+                                <td>${tx.timestamp}</td>
+                            </tr>`;
+                            body.innerHTML += row;
+                        });
+                        table.style.display = 'table';
+                    } else {
+                        body.innerHTML = `<tr><td colspan="5">No transactions found.</td></tr>`;
+                        table.style.display = 'table';
+                    }
+                })
+                .catch(error => {
+                    alert('⚠️ Failed to fetch transaction history.');
+                });
+        });
+    </script>
+    <div id="historyResult"></div>
+
+    <canvas id="bgCanvas"></canvas>
+<script>
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.zIndex = '-1';
+
+  let width, height;
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const particles = Array.from({ length: 80 }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 2 + 1,
+    dx: (Math.random() - 0.5) * 0.5,
+    dy: (Math.random() - 0.5) * 0.5
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'rgba(0, 255, 255, 0.2)';
+    particles.forEach(p => {
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0 || p.x > width) p.dx *= -1;
+      if (p.y < 0 || p.y > height) p.dy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+</script>
+
+
+</body>
+</html>
