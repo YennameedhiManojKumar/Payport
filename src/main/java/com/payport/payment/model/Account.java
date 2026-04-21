@@ -22,7 +22,14 @@ public class Account {
     @Column(nullable = false)
     private double balance;
 
+    @Column(nullable = true)
+    private String upiPin;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public boolean isPinSet() {
+        return upiPin != null && !upiPin.isBlank();
+    }
 }

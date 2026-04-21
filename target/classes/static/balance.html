@@ -1,96 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Check Balance</title>
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="icon" type="image/png" href="favicon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPort — Balance</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 <body>
+    <nav>
+        <span id="nav-user"></span>
+        <div>
+            <a href="/home.html">Home</a>
+            <a href="/transfer.html">Transfer</a>
+            <a href="/balance.html">Balance</a>
+            <a href="/history.html">History</a>
+            <a href="/profile.html">Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </nav>
 
-  <nav>
-    <a href="register.html">Register</a> |
-    <a href="transfer.html">Transfer</a> |
-    <a href="balance.html">Check Balance</a> |
-    <a href="history.html">Transaction History</a>
-  </nav>
+    <div class="container">
+        <h2>Check Balance</h2>
+        <form id="balanceForm">
+            <label>Your UPI ID</label>
+            <input type="text" id="upiId" readonly
+                   style="opacity:0.6; cursor:not-allowed;">
+            <label>UPI PIN</label>
+            <input type="password" id="pin" placeholder="Enter your UPI PIN"
+                   maxlength="6" inputmode="numeric" required>
+            <button type="submit">Check Balance</button>
+        </form>
+        <p id="message"></p>
+    </div>
 
-  <div class="container">
-    <h1>Check Balance</h1>
-    <form id="balanceForm">
-      <label for="upiId">UPI ID:</label>
-      <input type="text" id="upiId" required>
-      <button type="submit">Check</button>
-    </form>
-    <p id="balanceResult"></p>
-  </div>
-
-  <script>
-    document.getElementById("balanceForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const upiId = document.getElementById("upiId").value;
-      const result = document.getElementById("balanceResult");
-
-      fetch(`/api/transaction/balance?upiId=${upiId}`)
-        .then(response => {
-          if (!response.ok) {
-            return response.text().then(err => { throw new Error(err); });
-          }
-          return response.text();
-        })
-        .then(balance => {
-          result.textContent = `✅ Balance: ₹${balance}`;
-          result.className = "success";
-        })
-        .catch(error => {
-          result.textContent = `❌ ${error.message}`;
-          result.className = "error";
-        });
-    });
-  </script>
-
-  <canvas id="bgCanvas"></canvas>
-  <script>
-    const canvas = document.getElementById('bgCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.zIndex = '-1';
-
-    let width, height;
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    const particles = Array.from({ length: 80 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radius: Math.random() * 2 + 1,
-      dx: (Math.random() - 0.5) * 0.5,
-      dy: (Math.random() - 0.5) * 0.5
-    }));
-
-    function draw() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = 'rgba(0, 255, 255, 0.2)';
-      particles.forEach(p => {
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x < 0 || p.x > width) p.dx *= -1;
-        if (p.y < 0 || p.y > height) p.dy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      requestAnimationFrame(draw);
-    }
-    draw();
-  </script>
-
+    <canvas id="bgCanvas"></canvas>
+    <script src="/js/auth.js"></script>
+    <script src="/js/particles.js"></script>
+    <script src="/js/balance.js"></script>
 </body>
 </html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPort — Set UPI PIN</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+<body>
+    <div class="container">
+        <h2>Set UPI PIN</h2>
+        <p style="text-align:center; color:#bbbbbb; margin-bottom:24px">
+            Set a 4-6 digit PIN to secure your transactions
+        </p>
+        <form id="setPinForm">
+            <label>UPI ID</label>
+            <input type="text" id="upiId" placeholder="yourname@payport" required>
+            <label>Create PIN</label>
+            <input type="password" id="pin" placeholder="4-6 digit PIN"
+                   maxlength="6" pattern="[0-9]{4,6}" inputmode="numeric" required>
+            <label>Confirm PIN</label>
+            <input type="password" id="confirmPin" placeholder="Re-enter PIN"
+                   maxlength="6" pattern="[0-9]{4,6}" inputmode="numeric" required>
+            <button type="submit">Set PIN</button>
+        </form>
+        <p id="message"></p>
+        <p style="text-align:center; margin-top:16px">
+            <a href="/register.html" style="color:#7dcfff; font-size:0.9rem">Back to Login</a>
+        </p>
+    </div>
+
+    <canvas id="bgCanvas"></canvas>
+    <script src="/js/auth.js"></script>
+    <script src="/js/particles.js"></script>
+    <script>
+        const pendingUpi = sessionStorage.getItem('pending_upi');
+        if (pendingUpi) {
+            document.getElementById('upiId').value = pendingUpi;
+            document.getElementById('upiId').readOnly = true;
+            document.getElementById('upiId').style.opacity = '0.6';
+            document.getElementById('upiId').style.cursor = 'not-allowed';
+        }
+
+        document.getElementById('setPinForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const msg = document.getElementById('message');
+            const pin = document.getElementById('pin').value;
+            const confirmPin = document.getElementById('confirmPin').value;
+            const upiId = document.getElementById('upiId').value;
+
+            msg.textContent = '';
+            msg.className = '';
+
+            if (!/^[0-9]{4,6}$/.test(pin)) {
+                msg.textContent = 'PIN must be 4 to 6 digits only';
+                msg.className = 'error';
+                return;
+            }
+
+            if (pin !== confirmPin) {
+                msg.textContent = 'PINs do not match';
+                msg.className = 'error';
+                return;
+            }
+
+            try {
+                await handleResponse(await fetch('/api/account/set-pin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ upiId, pin })
+                }));
+                sessionStorage.removeItem('pending_upi');
+                msg.textContent = 'PIN set successfully! Please login.';
+                msg.className = 'success';
+                setTimeout(() => window.location.href = '/register.html', 1500);
+            } catch (err) {
+                msg.textContent = err.message;
+                msg.className = 'error';
+            }
+        });
+    </script>
+</body>
+</html>

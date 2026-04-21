@@ -1,51 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Payport</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #1a1a2e; /* Dark background color */
-      color: #ffffff; /* White text color */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
-    .container-custom {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 600px;
-    }
-    .btn {
-      margin: 10px;
-      font-weight: bold;
-      transition: transform 0.2s ease;
-    }
-    .btn:hover {
-      transform: scale(1.05);
-    }
-    h1 {
-      font-weight: bold;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPort — Home</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 <body>
-  <div class="container-custom">
-    <h1 class="mt-5">Welcome to Payport 💸</h1>
-    <p class="lead">Your one-stop solution for all payment needs.</p>
-    <a href="/register" class="btn btn-primary">Go to Registration Page</a>
-    <a href="/balance" class="btn btn-secondary ml-2">Go to Balance Page</a>
-    <a href="/transfer" class="btn btn-success ml-2">Go to Transfer Page</a>
-    <a href="/history" class="btn btn-info ml-2">Go to Transactions Page</a>
-  </div>
+    <nav>
+        <span id="nav-user"></span>
+        <div>
+            <a href="/home.html">Home</a>
+            <a href="/transfer.html">Transfer</a>
+            <a href="/balance.html">Balance</a>
+            <a href="/history.html">History</a>
+            <a href="#" onclick="logout()">Logout</a>
+            <a href="/profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome back 👋</h1>
+        <p id="welcome-msg" style="text-align:center; color:#bbbbbb; margin-bottom:30px"></p>
+
+        <div class="card-grid">
+            <div class="card" onclick="window.location.href='/transfer.html'">
+                <div class="card-icon">💸</div>
+                <div class="card-title">Transfer</div>
+                <div class="card-desc">Send money to any UPI ID</div>
+            </div>
+            <div class="card" onclick="window.location.href='/balance.html'">
+                <div class="card-icon">💰</div>
+                <div class="card-title">Balance</div>
+                <div class="card-desc">Check your account balance</div>
+            </div>
+            <div class="card" onclick="window.location.href='/history.html'">
+                <div class="card-icon">📜</div>
+                <div class="card-title">History</div>
+                <div class="card-desc">View transaction history</div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="bgCanvas"></canvas>
+    <script src="/js/auth.js"></script>
+    <script src="/js/particles.js"></script>
+    <script>
+        requireAuth();
+        const user = getUser();
+        if (user) {
+            document.getElementById('nav-user').textContent = user.name;
+            document.getElementById('welcome-msg').textContent = 'Logged in as ' + user.mobileNumber;
+        }
+    </script>
 </body>
 </html>

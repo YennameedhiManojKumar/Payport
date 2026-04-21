@@ -9,4 +9,5 @@ public class AuthResponse {
     private String token;
     private String mobileNumber;
     private String name;
+    private String upiId;
 }

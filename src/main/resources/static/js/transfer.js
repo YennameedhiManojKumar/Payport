@@ -1,29 +1,29 @@
-document.getElementById("transferForm").addEventListener("submit", async function (e) {
+requireAuth();
+const user = getUser();
+if (user) document.getElementById('nav-user').textContent = user.name;
+
+document.getElementById('transferForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+    const msg = document.getElementById('message');
+    msg.textContent = '';
+    msg.className = '';
 
-    const fromUpi = document.getElementById("fromUpi").value;
-    const toUpi = document.getElementById("toUpi").value;
-    const amount = document.getElementById("amount").value;
-    const status = document.getElementById("transferStatus");
-
-    const params = new URLSearchParams({
-        fromUpi: fromUpi,
-        toUpi: toUpi,
-        amount: amount
-    });
-
-    const response = await fetch(`/api/transaction/transfer?${params.toString()}`, {
-        method: "POST"
-    });
-
-    status.className = ""; // clear old style
-
-    if (response.ok) {
-        const data = await response.text(); // because the API returns string, not JSON
-        status.classList.add("alert", "success");
-        status.innerText = `✅ ${data}`;
-    } else {
-        status.classList.add("alert", "error");
-        status.innerText = "❌ Transfer failed.";
+    try {
+        await handleResponse(await fetch('/api/transaction/transfer', {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({
+                fromUpi: user.upiId,
+                toUpi: document.getElementById('toUpi').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                pin: document.getElementById('pin').value
+            })
+        }));
+        msg.textContent = 'Transfer successful!';
+        msg.className = 'success';
+        document.getElementById('transferForm').reset();
+    } catch (err) {
+        msg.textContent = err.message;
+        msg.className = 'error';
     }
 });

@@ -2,75 +2,110 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register & Link UPI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPort — Register</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 <body>
-    <nav>
-        <a href="register.html">Register</a> |
-        <a href="transfer.html">Transfer</a> |
-        <a href="balance.html">Check Balance</a> |
-        <a href="history.html">Transaction History</a>
-    </nav>
-    <hr />
-
     <div class="container">
-        <h2>Register & Link UPI</h2>
-        <form id="registerForm">
-            <label>Name:</label>
-            <input type="text" id="name" required><br>
+        <h1>PayPort 💸</h1>
 
-            <label>Mobile Number:</label>
-            <input type="text" id="mobile" required><br>
+        <div class="tab-group">
+            <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+            <button class="tab-btn" onclick="switchTab('register')">Register</button>
+        </div>
 
-            <label>UPI ID:</label>
-            <input type="text" id="upiId" required><br>
+        <div id="login-section">
+            <form id="loginForm">
+                <label>Mobile Number</label>
+                <input type="text" id="login-mobile" placeholder="10-digit mobile number"
+                       inputmode="numeric" maxlength="10" required>
+                <label>Password</label>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p id="login-message"></p>
+        </div>
 
-            <label>Initial Balance:</label>
-            <input type="number" id="balance" required><br>
-
-            <button type="submit">Register & Link</button>
-        </form>
-
-        <p id="message"></p>
+        <div id="register-section" style="display:none">
+            <form id="registerForm">
+                <label>Full Name</label>
+                <input type="text" id="reg-name" placeholder="Your full name" required>
+                <label>Mobile Number</label>
+                <input type="text" id="reg-mobile" placeholder="10-digit mobile number"
+                       inputmode="numeric" maxlength="10" required>
+                <label>Password</label>
+                <input type="password" id="reg-password" placeholder="Min 8 characters" required>
+                <label>UPI ID</label>
+                <input type="text" id="reg-upi" placeholder="yourname@payport" required>
+                <label>Initial Balance (₹)</label>
+                <input type="number" id="reg-balance" placeholder="0" min="0" required>
+                <button type="submit">Create Account</button>
+            </form>
+            <p id="register-message"></p>
+        </div>
     </div>
 
+    <canvas id="bgCanvas"></canvas>
+    <script src="/js/auth.js"></script>
+    <script src="/js/particles.js"></script>
     <script>
-        document.getElementById("registerForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+        if (getToken()) window.location.href = '/home.html';
 
-            const name = document.getElementById("name").value;
-            const mobile = document.getElementById("mobile").value;
-            const upiId = document.getElementById("upiId").value;
-            const balance = document.getElementById("balance").value;
-
-            fetch("/api/user/registerAndLink", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: name,
-                    mobileNumber: mobile,
-                    upiId: upiId,
-                    balance: parseFloat(balance)
-                })
-            })
-            .then(response => {
-                if (response.ok) return response.json();
-                throw new Error("Registration failed");
-            })
-            .then(data => {
-                document.getElementById("message").textContent = "✅ Registered: User ID = " + data.id;
-                document.getElementById("message").className = "success";
-
-                // Redirect to another page (like transfer or balance) after 1.5 seconds
-                setTimeout(() => {
-                    window.location.href = "balance.html"; // or transfer.html
-                }, 1500);
-            })
-            .catch(error => {
-                document.getElementById("message").textContent = "❌ " + error.message;
-                document.getElementById("message").className = "error";
+        function switchTab(tab) {
+            document.getElementById('login-section').style.display =
+                tab === 'login' ? 'block' : 'none';
+            document.getElementById('register-section').style.display =
+                tab === 'register' ? 'block' : 'none';
+            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', (i === 0) === (tab === 'login'));
             });
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const msg = document.getElementById('login-message');
+            try {
+                const data = await handleResponse(await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        mobileNumber: document.getElementById('login-mobile').value,
+                        password: document.getElementById('login-password').value
+                    })
+                }));
+                saveAuth(data.token, data.mobileNumber, data.name, data.upiId);
+                window.location.href = '/home.html';
+            } catch (err) {
+                msg.textContent = err.message;
+                msg.className = 'error';
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const msg = document.getElementById('register-message');
+            try {
+                const data = await handleResponse(await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('reg-name').value,
+                        mobileNumber: document.getElementById('reg-mobile').value,
+                        password: document.getElementById('reg-password').value,
+                        upiId: document.getElementById('reg-upi').value,
+                        balance: parseFloat(document.getElementById('reg-balance').value)
+                    })
+                }));
+                sessionStorage.setItem('pending_upi', data.upiId);
+                msg.textContent = 'Account created! Please set your UPI PIN.';
+                msg.className = 'success';
+                setTimeout(() => window.location.href = '/set-pin.html', 1500);
+            } catch (err) {
+                msg.textContent = err.message;
+                msg.className = 'error';
+            }
         });
     </script>
 </body>
