@@ -1,7 +1,8 @@
 package com.payport.payment.controller;
 
 import com.payport.payment.dto.request.TransferRequest;
-import com.payport.payment.model.Transaction;
+import com.payport.payment.dto.response.BalanceResponse;
+import com.payport.payment.dto.response.TransactionResponse;
 import com.payport.payment.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,13 @@ public class TransactionController {
     }
 
     @GetMapping("/balance")
-    public ResponseEntity<Map<String, Double>> checkBalance(@RequestParam String upiId) {
+    public ResponseEntity<BalanceResponse> checkBalance(@RequestParam String upiId) {
         double balance = accountService.getBalance(upiId);
-        return ResponseEntity.ok(Map.of("balance", balance));
+        return ResponseEntity.ok(new BalanceResponse(upiId, balance));
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<Transaction>> getHistory(@RequestParam String upiId) {
+    public ResponseEntity<List<TransactionResponse>> getHistory(@RequestParam String upiId) {
         return ResponseEntity.ok(accountService.getTransactionHistory(upiId));
     }
 }

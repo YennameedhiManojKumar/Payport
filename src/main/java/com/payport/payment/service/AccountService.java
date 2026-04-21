@@ -1,5 +1,6 @@
 package com.payport.payment.service;
 
+import com.payport.payment.dto.response.TransactionResponse;
 import com.payport.payment.exception.PayportException;
 import com.payport.payment.model.Account;
 import com.payport.payment.model.Transaction;
@@ -63,11 +64,19 @@ public class AccountService {
         return account.getBalance();
     }
 
-    public List<Transaction> getTransactionHistory(String upiId) {
+    public List<TransactionResponse> getTransactionHistory(String upiId) {
         if (!accountRepository.existsByUpiId(upiId)) {
             throw new PayportException("UPI ID not found", HttpStatus.NOT_FOUND);
         }
-        return transactionRepository.findBySenderUpiOrReceiverUpi(upiId, upiId);
+        return transactionRepository.findBySenderUpiOrReceiverUpi(upiId, upiId)
+                .stream()
+                .map(t -> new TransactionResponse(
+                        t.getId(),
+                        t.getSenderUpi(),
+                        t.getReceiverUpi(),
+                        t.getAmount(),
+                        t.getTimestamp()))
+                .toList();
     }
 
     public Account linkAccount(Long userId, String upiId, double balance) {
